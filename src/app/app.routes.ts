@@ -28,8 +28,16 @@ export const routes: Routes = [
     title: 'Our community — Morrow',
   },
   // TODO 2
-  { path: 'admin', component: AdminPage, title: 'Store overview — Morrow' },
-  { path: 'orders', component: OrdersPage, title: 'The order book — Morrow' },
+  {
+    path: 'admin',
+    loadComponent: () => import('./features/admin/admin').then((module) => module.AdminPage),
+    title: 'Store overview — Morrow',
+  },
+  {
+    path: 'orders',
+    loadComponent: () => import('./features/orders/orders').then((module) => module.OrdersPage),
+    title: 'The order book — Morrow',
+  },
   // TODO 3
   { path: 'auth', redirectTo: 'auth/login', pathMatch: 'full' },
   {
