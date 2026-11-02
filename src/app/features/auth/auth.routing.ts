@@ -1,7 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
+import { changePasswordGuard } from '../../core/guards/change-password-guard';
 
 export const AuthRoutes: Routes = [
-  { path: 'auth', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',
     loadComponent: () => import('./login').then((module) => module.LoginPage),
@@ -16,5 +17,11 @@ export const AuthRoutes: Routes = [
     path: 'forgot-password',
     loadComponent: () => import('./recovery').then((module) => module.RecoveryPage),
     title: 'A fresh start — Morrow',
+  },
+  {
+    path: 'change-password',
+    loadComponent: () => import('./change-password').then((module) => module.ChangePasswordPage),
+    canActivate: [changePasswordGuard],
+    title: 'Account settings — Morrow',
   },
 ];

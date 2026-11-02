@@ -46,13 +46,8 @@ export const routes: Routes = [
 
   // TODO 4 ==> Solved
 
-  // TODO 5
-  {
-    path: 'auth/change-password',
-    loadComponent: () =>
-      import('./features/auth/change-password').then((module) => module.ChangePasswordPage),
-    title: 'Account settings — Morrow',
-  },
+  // TODO 5 ==> Solved
+
   {
     path: '**',
     loadComponent: () => import('./features/not-found').then((module) => module.NotFoundPage),

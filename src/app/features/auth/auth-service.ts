@@ -131,5 +131,6 @@ export class AuthService {
 
   signOut(): void {
     this.session.next(null);
+    localStorage.removeItem('demo-account');
   }
 }

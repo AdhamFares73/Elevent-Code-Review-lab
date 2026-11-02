@@ -48,6 +48,11 @@ export class LoginPage {
           this.view.markForCheck();
           this.success = result.message;
           this.form.controls.password.reset();
+          localStorage.setItem(
+            'demo-account',
+            result.account ? JSON.stringify(result.account) : '',
+          );
+
           // TODO 13
           console.log('Account form completed: login');
         },

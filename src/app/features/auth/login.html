@@ -14,7 +14,7 @@
     <p class="auth-demo-note">
       Local demo. Use fictional details; no email is sent and no password is saved.
     </p>
-    @if (currentUser) {
+    @if (currentUser != null) {
       <div class="auth-session">
         <span>Signed in as {{ currentUser.name }}</span
         ><button type="button" (click)="auth.signOut()">Sign out</button
