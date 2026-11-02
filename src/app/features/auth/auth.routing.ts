@@ -15,7 +15,6 @@ export const AuthRoutes: Routes = [
   {
     path: 'forgot-password',
     loadComponent: () => import('./recovery').then((module) => module.RecoveryPage),
-    data: { step: 0 },
     title: 'A fresh start — Morrow',
   },
 ];

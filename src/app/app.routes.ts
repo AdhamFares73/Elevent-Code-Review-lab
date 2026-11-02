@@ -44,19 +44,8 @@ export const routes: Routes = [
     loadChildren: () => import('./features/auth/auth.routing').then((module) => module.AuthRoutes),
   },
 
-  // TODO 4
-  {
-    path: 'auth/verify-otp',
-    loadComponent: () => import('./features/auth/recovery').then((module) => module.RecoveryPage),
-    data: { step: 1 },
-    title: 'Verify your code — Morrow',
-  },
-  {
-    path: 'auth/reset-password',
-    loadComponent: () => import('./features/auth/recovery').then((module) => module.RecoveryPage),
-    data: { step: 2 },
-    title: 'Refresh your password — Morrow',
-  },
+  // TODO 4 ==> Solved
+
   // TODO 5
   {
     path: 'auth/change-password',
