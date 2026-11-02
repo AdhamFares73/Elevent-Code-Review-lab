@@ -27,7 +27,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/users/users').then((module) => module.UsersPage),
     title: 'Our community — Morrow',
   },
-  // TODO 2
+  // TODO 2 ==> Solved
   {
     path: 'admin',
     loadComponent: () => import('./features/admin/admin').then((module) => module.AdminPage),
@@ -38,24 +38,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/orders/orders').then((module) => module.OrdersPage),
     title: 'The order book — Morrow',
   },
-  // TODO 3
-  { path: 'auth', redirectTo: 'auth/login', pathMatch: 'full' },
+  // TODO 3 ==> Solved
   {
-    path: 'auth/login',
-    loadComponent: () => import('./features/auth/login').then((module) => module.LoginPage),
-    title: 'Welcome back — Morrow',
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routing').then((module) => module.AuthRoutes),
   },
-  {
-    path: 'auth/register',
-    loadComponent: () => import('./features/auth/register').then((module) => module.RegisterPage),
-    title: 'Join the community — Morrow',
-  },
-  {
-    path: 'auth/forgot-password',
-    loadComponent: () => import('./features/auth/recovery').then((module) => module.RecoveryPage),
-    data: { step: 0 },
-    title: 'A fresh start — Morrow',
-  },
+
   // TODO 4
   {
     path: 'auth/verify-otp',
