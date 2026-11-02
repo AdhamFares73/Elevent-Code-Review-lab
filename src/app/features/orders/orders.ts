@@ -4,16 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CatalogApi } from '../../core/catalog-api';
-import { readScenario } from '../../core/models';
+import { Customer, Order, readScenario } from '../../core/models';
 import { StatusPanel } from '../../shared/status-panel';
 import { Pagination } from '../../shared/pagination';
-
-// TODO 7
-interface Customer {
-  id: number;
-  name: string;
-  email?: string;
-}
 
 @Component({
   imports: [CurrencyPipe, DatePipe, ReactiveFormsModule, StatusPanel, Pagination],
@@ -24,8 +17,8 @@ export class OrdersPage {
   private readonly route = inject(ActivatedRoute);
   private readonly view = inject(ChangeDetectorRef);
   customers: Customer[] = [];
-  // TODO 7
-  orders: any[] = [];
+  // TODO 7 ==> Solved
+  orders: Order[] = [];
   loading = true;
   readonly status = new FormControl('All', { nonNullable: true });
   readonly page = signal(1);

@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, delay, of, throwError, timer, mergeMap } from 'rxjs';
-import { Customer, Product, Scenario } from './models';
+import { Customer, Order, Product, Scenario } from './models';
 
 export const mockLatencyInterceptor: HttpInterceptorFn = (request, next) => {
   if (!request.url.startsWith('/mock-api/')) return next(request);
@@ -41,8 +41,8 @@ export class CatalogApi {
   users(scenario: Scenario = 'normal'): Observable<Customer[]> {
     return this.http.get<Customer[]>('/mock-api/users.json', { params: { scenario } });
   }
-  // TODO 7
-  orders(scenario: Scenario = 'normal'): Observable<any[]> {
-    return this.http.get<any[]>('/mock-api/orders.json', { params: { scenario } });
+  // TODO 7 ==> Solved
+  orders(scenario: Scenario = 'normal'): Observable<Order[]> {
+    return this.http.get<Order[]>('/mock-api/orders.json', { params: { scenario } });
   }
 }

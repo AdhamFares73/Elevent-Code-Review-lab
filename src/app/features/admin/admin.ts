@@ -30,7 +30,7 @@ export class AdminPage {
   readonly category = new FormControl('All', { nonNullable: true });
   products: Product[] = [];
   customers: Customer[] = [];
-  orders: OrderRow[] = [];
+  orders: Order[] = [];
   loading = true;
   error = false;
   reportMessage = '';
@@ -55,8 +55,8 @@ export class AdminPage {
       next: (result) => {
         this.products = result.products;
         this.customers = result.users;
-        // TODO 7
-        this.orders = result.orders as Order[];
+        // TODO 7 ==> Solved
+        this.orders = result.orders;
         this.loading = false;
         this.view.markForCheck();
       },
