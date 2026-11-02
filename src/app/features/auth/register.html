@@ -12,7 +12,12 @@
     <h2>Start something good.</h2>
     <p class="auth-intro">A few details, and you're one of us.</p>
     <p class="auth-demo-note">Demo accounts only. Use fictional details and a made-up password.</p>
-    <form [formGroup]="form" (ngSubmit)="submit()" [attr.aria-busy]="loading" novalidate>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      [attr.aria-busy]="loading.isLoading()"
+      novalidate
+    >
       <!-- TODO 11 -->
       <div class="auth-field">
         <label for="register-name">Your name</label
@@ -83,8 +88,9 @@
       }
       <!-- TODO 12 -->
       <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="loading">
-        {{ loading ? 'Making room for you…' : 'Create account' }} <span aria-hidden="true">↗</span>
+      <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+        {{ loading.isLoading() ? 'Making room for you…' : 'Create account' }}
+        <span aria-hidden="true">↗</span>
       </button>
     </form>
     <p class="auth-switch">Already in good company? <a routerLink="/auth/login">Sign in ↗</a></p>

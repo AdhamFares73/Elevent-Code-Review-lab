@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
+import { LoadingService } from '../../core/loading';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -20,6 +21,8 @@ export class RegisterPage {
   private readonly route = inject(ActivatedRoute);
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
+  private readonly loading = inject(LoadingService);
+
   readonly form = this.fb.group(
     {
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -35,16 +38,13 @@ export class RegisterPage {
           : { passwordMismatch: true },
     },
   );
-  loading = false;
   error = '';
   success = '';
 
   submit(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-    // TODO 1
-    this.loading = true;
     this.error = '';
     this.success = '';
     const values = this.form.getRawValue();
@@ -57,7 +57,6 @@ export class RegisterPage {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
           this.view.markForCheck();
           this.success = result.message;
           this.form.controls.password.reset();
@@ -66,7 +65,6 @@ export class RegisterPage {
           console.log('Account form completed: registration');
         },
         error: (error) => {
-          this.loading = false;
           this.view.markForCheck();
           this.error = describeAuthError(error);
         },

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
+import { LoadingService } from '../../core/loading';
 
 // TODO 9
 interface RecoveryState {
@@ -27,6 +28,8 @@ export class RecoveryPage {
   private readonly route = inject(ActivatedRoute);
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
+  private readonly loading = inject(LoadingService);
+
   recovery: RecoveryState = { step: 0, email: '', verified: false };
   readonly emailForm = this.fb.group({ email: ['', [Validators.required, Validators.email]] });
   readonly codeForm = this.fb.group({
@@ -45,7 +48,6 @@ export class RecoveryPage {
           : { passwordMismatch: true },
     },
   );
-  loading = false;
   error = '';
   message = '';
   completed = false;
@@ -60,18 +62,16 @@ export class RecoveryPage {
   }
 
   requestCode(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.emailForm.markAllAsTouched();
     if (this.emailForm.invalid) return;
-    // TODO 1
-    this.loading = true;
+
     this.error = '';
     const email = this.emailForm.controls.email.value;
     this.auth
       .requestCode(email, this.route.snapshot.queryParamMap.get('scenario') ?? 'normal')
       .subscribe({
         next: (result) => {
-          this.loading = false;
           this.view.markForCheck();
           this.message = result.message;
           this.recovery.email = email;
@@ -79,7 +79,6 @@ export class RecoveryPage {
           this.recovery.verified = false;
         },
         error: (error) => {
-          this.loading = false;
           this.view.markForCheck();
           this.error = describeAuthError(error);
         },
@@ -87,11 +86,10 @@ export class RecoveryPage {
   }
 
   verifyCode(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.codeForm.markAllAsTouched();
     if (this.codeForm.invalid) return;
-    // TODO 1
-    this.loading = true;
+
     this.error = '';
     this.auth
       .verifyCode(
@@ -101,7 +99,6 @@ export class RecoveryPage {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
           this.view.markForCheck();
           this.message = result.message;
           this.recovery.verified = true;
@@ -110,7 +107,6 @@ export class RecoveryPage {
           console.log('Account recovery moved to password step');
         },
         error: (error) => {
-          this.loading = false;
           this.view.markForCheck();
           this.error = describeAuthError(error);
         },
@@ -118,11 +114,9 @@ export class RecoveryPage {
   }
 
   resetPassword(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.passwordForm.markAllAsTouched();
     if (this.passwordForm.invalid) return;
-    // TODO 1
-    this.loading = true;
     this.error = '';
     this.auth
       .resetPassword(
@@ -132,14 +126,12 @@ export class RecoveryPage {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
           this.view.markForCheck();
           this.message = result.message;
           this.completed = true;
           this.passwordForm.reset();
         },
         error: (error) => {
-          this.loading = false;
           this.view.markForCheck();
           this.error = describeAuthError(error);
         },
@@ -147,7 +139,7 @@ export class RecoveryPage {
   }
 
   back(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.recovery.step = Math.max(0, this.recovery.step - 1);
     this.error = '';
     this.message = '';

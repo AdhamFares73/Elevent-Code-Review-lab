@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
+import { LoadingService } from '../../core/loading';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -20,6 +21,8 @@ export class ChangePasswordPage {
   private readonly route = inject(ActivatedRoute);
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
+  readonly loading = inject(LoadingService);
+
   readonly form = this.fb.group(
     {
       currentPassword: ['', [Validators.required, Validators.minLength(8)]],
@@ -35,7 +38,6 @@ export class ChangePasswordPage {
     },
   );
   accountName = 'Your account';
-  loading = false;
   error = '';
   success = '';
 
@@ -47,11 +49,10 @@ export class ChangePasswordPage {
   }
 
   submit(): void {
-    if (this.loading) return;
+    if (this.loading.isLoading()) return;
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-    // TODO 1
-    this.loading = true;
+
     this.error = '';
     this.success = '';
     const values = this.form.getRawValue();
@@ -63,7 +64,6 @@ export class ChangePasswordPage {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
           this.view.markForCheck();
           this.success = result.message;
           this.form.reset();
@@ -71,7 +71,6 @@ export class ChangePasswordPage {
           console.log('Account form completed: password change');
         },
         error: (error) => {
-          this.loading = false;
           this.view.markForCheck();
           this.error = describeAuthError(error);
         },

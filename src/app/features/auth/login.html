@@ -21,7 +21,12 @@
         ><a routerLink="/auth/change-password">Change password ↗</a>
       </div>
     }
-    <form [formGroup]="form" (ngSubmit)="submit()" [attr.aria-busy]="loading" novalidate>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      [attr.aria-busy]="loading.isLoading()"
+      novalidate
+    >
       <div class="auth-field">
         <label for="login-email">Email address</label
         ><input
@@ -65,8 +70,8 @@
       }
       <!-- TODO 12 -->
       <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="loading">
-        {{ loading ? 'Signing you in…' : 'Sign in' }} <span aria-hidden="true">↗</span>
+      <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+        {{ loading.isLoading() ? 'Signing you in…' : 'Sign in' }} <span aria-hidden="true">↗</span>
       </button>
     </form>
     <p class="auth-switch">New around here? <a routerLink="/auth/register">Make an account ↗</a></p>
