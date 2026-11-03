@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
+import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -31,11 +32,8 @@ export class RegisterPage {
       confirmPassword: ['', Validators.required],
     },
     {
-      // TODO 10
-      validators: (group: AbstractControl): ValidationErrors | null =>
-        group.get('password')?.value === group.get('confirmPassword')?.value
-          ? null
-          : { passwordMismatch: true },
+      // TODO 10 ==> Solved
+      validators: passwordMatchingValidator(),
     },
   );
   error = '';

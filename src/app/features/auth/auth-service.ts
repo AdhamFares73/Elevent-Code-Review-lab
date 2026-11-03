@@ -6,17 +6,9 @@ import {
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, delay, mergeMap, of, tap, throwError, timer } from 'rxjs';
+import { DemoAccount, DemoAuthResult } from '../../core/models';
 
-// TODO 9
-export interface DemoAccount {
-  name: string;
-  email: string;
-}
-
-export interface DemoAuthResult {
-  message: string;
-  account?: DemoAccount;
-}
+// TODO 9 ==> Solved
 
 export function describeAuthError(error: HttpErrorResponse): string {
   return typeof error.error?.message === 'string'

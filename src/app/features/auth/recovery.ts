@@ -10,13 +10,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
 import { Title } from '@angular/platform-browser';
+import { RecoveryState } from '../../core/models';
+import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 
-// TODO 9
-interface RecoveryState {
-  step: number;
-  email: string;
-  verified: boolean;
-}
+// TODO 9 ==> Solved
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -42,11 +39,8 @@ export class RecoveryPage {
       confirmPassword: ['', Validators.required],
     },
     {
-      // TODO 10
-      validators: (group: AbstractControl): ValidationErrors | null =>
-        group.get('password')?.value === group.get('confirmPassword')?.value
-          ? null
-          : { passwordMismatch: true },
+      // TODO 10 ==> Solved
+      validators: passwordMatchingValidator(),
     },
   );
   error = '';

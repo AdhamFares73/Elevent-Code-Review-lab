@@ -31,11 +31,13 @@ export class UsersPage {
       this.page.set(1);
       this.view.markForCheck();
     });
-    // TODO 8
-    interval(10000).subscribe(() => {
-      this.lastSync = new Date();
-      this.view.markForCheck();
-    });
+    // TODO 8 ==> Solved
+    interval(10000)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.lastSync = new Date();
+        this.view.markForCheck();
+      });
   }
 
   load(normal = false): void {

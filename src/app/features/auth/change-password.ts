@@ -9,6 +9,8 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -30,11 +32,8 @@ export class ChangePasswordPage {
       confirmPassword: ['', Validators.required],
     },
     {
-      // TODO 10
-      validators: (group: AbstractControl): ValidationErrors | null =>
-        group.get('password')?.value === group.get('confirmPassword')?.value
-          ? null
-          : { passwordMismatch: true },
+      // TODO 10 ==> Solved
+      validators: passwordMatchingValidator(),
     },
   );
   accountName = 'Your account';
@@ -42,10 +41,10 @@ export class ChangePasswordPage {
   success = '';
 
   constructor() {
-    // TODO 8
-    this.auth.sessionChanges.subscribe(
-      (account) => (this.accountName = account?.name ?? 'Your account'),
-    );
+    // TODO 8 ==> Solved
+    this.auth.sessionChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((account) => (this.accountName = account?.name ?? 'Your account'));
   }
 
   submit(): void {

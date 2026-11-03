@@ -42,3 +42,17 @@ export type Scenario = 'normal' | 'empty' | 'error';
 export function readScenario(value: string | null): Scenario {
   return value === 'empty' || value === 'error' ? value : 'normal';
 }
+export interface DemoAccount {
+  name: string;
+  email: string;
+}
+
+export interface DemoAuthResult {
+  message: string;
+  account?: DemoAccount;
+}
+export interface RecoveryState {
+  step: number;
+  email: string;
+  verified: boolean;
+}

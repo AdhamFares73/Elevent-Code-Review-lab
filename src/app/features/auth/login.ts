@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AuthService, DemoAccount, describeAuthError } from './auth-service';
+import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DemoAccount } from '../../core/models';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -25,8 +27,11 @@ export class LoginPage {
   success = '';
 
   constructor() {
-    // TODO 8
-    this.auth.sessionChanges.subscribe((account) => (this.currentUser = account));
+    // TODO 8 ==> Solved
+    // this.auth.sessionChanges.subscribe((account) => (this.currentUser = account));
+    this.auth.sessionChanges.pipe(takeUntilDestroyed()).subscribe((account) => {
+      this.currentUser = account;
+    });
   }
 
   submit(): void {
