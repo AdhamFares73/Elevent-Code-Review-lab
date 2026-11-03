@@ -1,0 +1,17 @@
+<div class="auth-field">
+  <label [for]="forId">{{ labelName }} </label>
+  <input
+    [id]="forId"
+    [type]="type"
+    [placeholder]="placeholder"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    [value]="inputValue"
+    class="form-control"
+  />
+  @if (errorMessage != '') {
+    <div class="field-error" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+</div>

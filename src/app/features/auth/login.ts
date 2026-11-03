@@ -1,13 +1,20 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DemoAccount } from '../../core/models';
+import { InputFormComponent } from '../../shared/input-form/input-form.component';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -66,5 +73,21 @@ export class LoginPage {
           this.error = describeAuthError(error);
         },
       });
+  }
+  getErrorMessage(field: string): string {
+    const control = this.form.get(field);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${field} is required`;
+    }
+    if (control.hasError('email')) {
+      return 'Please enter a valid email address';
+    }
+    if (control.hasError('minlength')) {
+      return `Use at least ${control.errors['minlength'].requiredLength} characters `;
+    }
+    return '';
   }
 }

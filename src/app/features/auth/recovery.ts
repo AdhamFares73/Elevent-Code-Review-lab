@@ -12,11 +12,12 @@ import { LoadingService } from '../../core/loading';
 import { Title } from '@angular/platform-browser';
 import { RecoveryState } from '../../core/models';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
+import { InputFormComponent } from '../../shared/input-form/input-form.component';
 
 // TODO 9 ==> Solved
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
   templateUrl: './recovery.html',
   styleUrl: './recovery.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -145,5 +146,29 @@ export class RecoveryPage {
     };
 
     this.title.setTitle(titles[step]);
+  }
+  getErrorMessage(field: string): string {
+    const control =
+      this.codeForm.get(field) || this.emailForm.get(field) || this.passwordForm.get(field);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${field} is required`;
+    }
+    if (control.hasError('email')) {
+      return 'Please enter a valid email address';
+    }
+    if (control.hasError('pattern') && field === 'password') {
+      return 'Must be at least 6 characters ';
+    }
+    if (control.hasError('pattern') && field === 'code') {
+      return 'Enter exactly six digits.';
+    }
+    if (control.hasError('minlength')) {
+      return `Use at least ${control.errors['minlength'].requiredLength} characters `;
+    }
+
+    return '';
   }
 }

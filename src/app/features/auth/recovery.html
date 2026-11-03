@@ -35,23 +35,16 @@
         [attr.aria-busy]="loading.isLoading()"
         novalidate
       >
-        <div class="auth-field">
-          <label for="recovery-email">Email address</label
-          ><input
-            id="recovery-email"
-            type="email"
-            formControlName="email"
-            autocomplete="email"
-            placeholder="you@example.test"
-          />
-          <!-- TODO 11 -->
-          @if (emailForm.controls.email.touched && emailForm.controls.email.hasError('required')) {
-            <p class="field-error" role="alert">Email is required.</p>
-          }
-          @if (emailForm.controls.email.touched && emailForm.controls.email.hasError('email')) {
-            <p class="field-error" role="alert">Enter a valid email address.</p>
-          }
-        </div>
+        <!-- TODO 11 ==> Solved -->
+        <app-input-form
+          labelName="Email address"
+          type="email"
+          placeholder="you@example.test"
+          forId="recovery-email"
+          [errorMessage]="getErrorMessage('email')"
+          formControlName="email"
+        ></app-input-form>
+
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
@@ -75,24 +68,17 @@
         [attr.aria-busy]="loading.isLoading()"
         novalidate
       >
-        <div class="auth-field">
-          <label for="recovery-code">Verification code</label
-          ><input
-            id="recovery-code"
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            formControlName="code"
-            autocomplete="one-time-code"
-            placeholder="000000"
-          />
-          @if (codeForm.controls.code.touched && codeForm.controls.code.hasError('required')) {
-            <p class="field-error" role="alert">Your code is required.</p>
-          }
-          @if (codeForm.controls.code.touched && codeForm.controls.code.hasError('pattern')) {
-            <p class="field-error" role="alert">Enter exactly six digits.</p>
-          }
-        </div>
+        <app-input-form
+          labelName="Verification code"
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="000000"
+          forId="recovery-code"
+          [errorMessage]="getErrorMessage('code')"
+          formControlName="code"
+        ></app-input-form>
+
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
@@ -114,48 +100,27 @@
         [attr.aria-busy]="loading.isLoading()"
         novalidate
       >
-        <div class="auth-field">
-          <label for="reset-password">New password</label
-          ><input
-            id="reset-password"
-            type="password"
-            formControlName="password"
-            autocomplete="new-password"
-          />
-          @if (
-            passwordForm.controls.password.touched &&
-            passwordForm.controls.password.hasError('required')
-          ) {
-            <p class="field-error" role="alert">Password is required.</p>
-          }
-          @if (
-            passwordForm.controls.password.touched &&
-            passwordForm.controls.password.hasError('minlength')
-          ) {
-            <p class="field-error" role="alert">Use at least 8 characters.</p>
-          }
-        </div>
-        <div class="auth-field">
-          <label for="reset-confirm">Confirm new password</label
-          ><input
-            id="reset-confirm"
-            type="password"
-            formControlName="confirmPassword"
-            autocomplete="new-password"
-          />
-          @if (
-            passwordForm.controls.confirmPassword.touched &&
-            passwordForm.controls.confirmPassword.hasError('required')
-          ) {
-            <p class="field-error" role="alert">Confirm your password.</p>
-          }
-          @if (
-            passwordForm.controls.confirmPassword.touched &&
-            passwordForm.hasError('passwordMismatch')
-          ) {
-            <p class="field-error" role="alert">Your passwords don't match.</p>
-          }
-        </div>
+        <app-input-form
+          labelName="New password"
+          type="password"
+          forId="reset-password"
+          [errorMessage]="getErrorMessage('password')"
+          formControlName="password"
+        ></app-input-form>
+
+        <app-input-form
+          labelName="Confirm Password"
+          type="password"
+          forId="register-confirm"
+          formControlName="confirmPassword"
+          [errorMessage]="
+            passwordForm.get('confirmPassword')?.touched &&
+            passwordForm.getError('passwordMismatch')
+              ? 'Your passwords don\'t match.'
+              : getErrorMessage('confirmPassword')
+          "
+        ></app-input-form>
+
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }

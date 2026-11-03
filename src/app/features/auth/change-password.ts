@@ -11,9 +11,10 @@ import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
+import { InputFormComponent } from '../../shared/input-form/input-form.component';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -74,5 +75,23 @@ export class ChangePasswordPage {
           this.error = describeAuthError(error);
         },
       });
+  }
+  getErrorMessage(field: string): string {
+    const control = this.form.get(field);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${field} is required`;
+    }
+
+    if (control.hasError('pattern') && field === 'password') {
+      return 'Must be at least 6 characters ';
+    }
+    if (control.hasError('minlength')) {
+      return `Use at least ${control.errors['minlength'].requiredLength} characters `;
+    }
+
+    return '';
   }
 }
