@@ -48,9 +48,9 @@
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
-        <!-- TODO 12 -->
+        <!-- TODO 12 ==> Solved -->
         <!-- TODO 14 -->
-        <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+        <button class="auth-submit" type="submit" [disabled]="!isSubmittingEmail">
           {{ loading.isLoading() ? 'Getting things ready…' : 'Send recovery code' }}
           <span aria-hidden="true">↗</span>
         </button>
@@ -82,8 +82,8 @@
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
-        <!-- TODO 12 -->
-        <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+        <!-- TODO 12 ==> Solved -->
+        <button class="auth-submit" type="submit" [disabled]="!isSubmittingCode">
           {{ loading.isLoading() ? 'Checking your code…' : 'Verify code' }}
           <span aria-hidden="true">↗</span>
         </button>
@@ -124,8 +124,8 @@
         @if (error) {
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
-        <!-- TODO 12 -->
-        <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+        <!-- TODO 12 ==> Solved -->
+        <button class="auth-submit" type="submit" [disabled]="!isSubmittingPassword">
           {{ loading.isLoading() ? 'Finishing up…' : 'Reset password' }}
           <span aria-hidden="true">↗</span>
         </button>

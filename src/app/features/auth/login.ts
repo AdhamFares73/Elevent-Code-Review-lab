@@ -25,6 +25,7 @@ export class LoginPage {
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
   readonly loading = inject(LoadingService);
+  protected isSubmitting = false;
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
@@ -38,6 +39,13 @@ export class LoginPage {
     // this.auth.sessionChanges.subscribe((account) => (this.currentUser = account));
     this.auth.sessionChanges.pipe(takeUntilDestroyed()).subscribe((account) => {
       this.currentUser = account;
+    });
+    this.form.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmitting = true;
+      } else {
+        this.isSubmitting = false;
+      }
     });
   }
 

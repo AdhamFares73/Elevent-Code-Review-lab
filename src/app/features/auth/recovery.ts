@@ -13,6 +13,7 @@ import { Title } from '@angular/platform-browser';
 import { RecoveryState } from '../../core/models';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // TODO 9 ==> Solved
 
@@ -29,6 +30,9 @@ export class RecoveryPage {
   private readonly fb = inject(FormBuilder).nonNullable;
   private readonly loading = inject(LoadingService);
   private readonly title = inject(Title);
+  protected isSubmittingEmail = false;
+  protected isSubmittingCode = false;
+  protected isSubmittingPassword = false;
   recovery: RecoveryState = { step: 0, email: '', verified: false };
   readonly emailForm = this.fb.group({ email: ['', [Validators.required, Validators.email]] });
   readonly codeForm = this.fb.group({
@@ -56,6 +60,27 @@ export class RecoveryPage {
       this.recovery.email = this.route.snapshot.queryParamMap.get('email') ?? 'demo@example.test';
       this.emailForm.controls.email.setValue(this.recovery.email);
     }
+    this.emailForm.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmittingEmail = true;
+      } else {
+        this.isSubmittingEmail = false;
+      }
+    });
+    this.codeForm.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmittingCode = true;
+      } else {
+        this.isSubmittingCode = false;
+      }
+    });
+    this.passwordForm.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmittingPassword = true;
+      } else {
+        this.isSubmittingPassword = false;
+      }
+    });
   }
 
   requestCode(): void {

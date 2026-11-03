@@ -11,6 +11,7 @@ import { AuthService, describeAuthError } from './auth-service';
 import { LoadingService } from '../../core/loading';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
@@ -24,7 +25,7 @@ export class RegisterPage {
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
   private readonly loading = inject(LoadingService);
-
+  protected isSubmitting = false;
   readonly form = this.fb.group(
     {
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -39,7 +40,15 @@ export class RegisterPage {
   );
   error = '';
   success = '';
-
+  constructor() {
+    this.form.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmitting = true;
+      } else {
+        this.isSubmitting = false;
+      }
+    });
+  }
   submit(): void {
     if (this.loading.isLoading()) return;
     this.form.markAllAsTouched();

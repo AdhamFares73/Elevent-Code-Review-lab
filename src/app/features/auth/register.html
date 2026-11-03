@@ -65,7 +65,7 @@
       }
       <!-- TODO 12 -->
       <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+      <button class="auth-submit" type="submit" [disabled]="!isSubmitting">
         {{ loading.isLoading() ? 'Making room for you…' : 'Create account' }}
         <span aria-hidden="true">↗</span>
       </button>

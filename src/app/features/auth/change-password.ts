@@ -25,7 +25,7 @@ export class ChangePasswordPage {
   private readonly view = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder).nonNullable;
   readonly loading = inject(LoadingService);
-
+  protected isSubmitting = false;
   readonly form = this.fb.group(
     {
       currentPassword: ['', [Validators.required, Validators.minLength(8)]],
@@ -46,6 +46,13 @@ export class ChangePasswordPage {
     this.auth.sessionChanges
       .pipe(takeUntilDestroyed())
       .subscribe((account) => (this.accountName = account?.name ?? 'Your account'));
+    this.form.statusChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.toLowerCase() === 'valid') {
+        this.isSubmitting = true;
+      } else {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   submit(): void {

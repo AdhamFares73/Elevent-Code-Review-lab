@@ -54,9 +54,9 @@
           {{ success }} <a routerLink="/products">Explore the collection ↗</a>
         </p>
       }
-      <!-- TODO 12 -->
+      <!-- TODO 12 ==> Solved -->
       <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="loading.isLoading()">
+      <button class="auth-submit" type="submit" [disabled]="!isSubmitting">
         {{ loading.isLoading() ? 'Signing you in…' : 'Sign in' }} <span aria-hidden="true">↗</span>
       </button>
     </form>
