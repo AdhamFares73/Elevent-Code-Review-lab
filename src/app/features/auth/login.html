@@ -55,10 +55,13 @@
         </p>
       }
       <!-- TODO 12 ==> Solved -->
-      <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="!isSubmitting">
-        {{ loading.isLoading() ? 'Signing you in…' : 'Sign in' }} <span aria-hidden="true">↗</span>
-      </button>
+      <!-- TODO 14 ==> Solved -->
+
+      <app-button
+        [value]="loading.isLoading() ? 'Signing you in…' : 'Sign in'"
+        [type]="'submit'"
+        [isDisabled]="!isSubmitting"
+      />
     </form>
     <p class="auth-switch">New around here? <a routerLink="/auth/register">Make an account ↗</a></p>
   </div>

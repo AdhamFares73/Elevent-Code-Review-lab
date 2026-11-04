@@ -12,9 +12,10 @@ import { LoadingService } from '../../core/loading';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent, ButtonComponent],
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -74,8 +75,6 @@ export class ChangePasswordPage {
           this.view.markForCheck();
           this.success = result.message;
           this.form.reset();
-          // TODO 13
-          console.log('Account form completed: password change');
         },
         error: (error) => {
           this.view.markForCheck();

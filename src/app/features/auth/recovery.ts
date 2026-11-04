@@ -14,11 +14,12 @@ import { RecoveryState } from '../../core/models';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 // TODO 9 ==> Solved
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent, ButtonComponent],
   templateUrl: './recovery.html',
   styleUrl: './recovery.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -123,8 +124,6 @@ export class RecoveryPage {
           this.message = result.message;
           this.recovery.verified = true;
           this.updateStep(2);
-          // TODO 13
-          console.log('Account recovery moved to password step');
         },
         error: (error) => {
           this.view.markForCheck();

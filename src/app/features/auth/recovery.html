@@ -49,11 +49,13 @@
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
         <!-- TODO 12 ==> Solved -->
-        <!-- TODO 14 -->
-        <button class="auth-submit" type="submit" [disabled]="!isSubmittingEmail">
-          {{ loading.isLoading() ? 'Getting things ready…' : 'Send recovery code' }}
-          <span aria-hidden="true">↗</span>
-        </button>
+        <!-- TODO 14 ==> Solved -->
+
+        <app-button
+          [value]="loading.isLoading() ? 'Getting things ready…' : 'Send recovery code'"
+          [type]="'submit'"
+          [isDisabled]="!isSubmittingEmail"
+        />
       </form>
     } @else if (recovery.step === 1) {
       <h2>A quick little check.</h2>
@@ -83,10 +85,12 @@
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
         <!-- TODO 12 ==> Solved -->
-        <button class="auth-submit" type="submit" [disabled]="!isSubmittingCode">
-          {{ loading.isLoading() ? 'Checking your code…' : 'Verify code' }}
-          <span aria-hidden="true">↗</span>
-        </button>
+        <!-- TODO 14 ==> Solved -->
+        <app-button
+          [value]="loading.isLoading() ? 'Checking your code…' : 'Verify code'"
+          [type]="'submit'"
+          [isDisabled]="!isSubmittingCode"
+        />
       </form>
       <button class="auth-back" type="button" [disabled]="loading.isLoading()" (click)="back()">
         ← Use another email
@@ -125,10 +129,16 @@
           <p class="auth-request-error" role="alert">{{ error }}</p>
         }
         <!-- TODO 12 ==> Solved -->
-        <button class="auth-submit" type="submit" [disabled]="!isSubmittingPassword">
+        <!-- <button class="auth-submit" type="submit" [disabled]="!isSubmittingPassword">
           {{ loading.isLoading() ? 'Finishing up…' : 'Reset password' }}
           <span aria-hidden="true">↗</span>
-        </button>
+        </button> -->
+        <!-- TODO 14 ==> Solved -->
+        <app-button
+          [value]="loading.isLoading() ? 'Finishing up…' : 'Reset password'"
+          [type]="'submit'"
+          [isDisabled]="!isSubmittingPassword"
+        />
       </form>
       <button class="auth-back" type="button" [disabled]="loading.isLoading()" (click)="back()">
         ← Back to verification

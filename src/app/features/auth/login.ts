@@ -12,9 +12,10 @@ import { LoadingService } from '../../core/loading';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DemoAccount } from '../../core/models';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent, ButtonComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -72,9 +73,6 @@ export class LoginPage {
             'demo-account',
             result.account ? JSON.stringify(result.account) : '',
           );
-
-          // TODO 13
-          console.log('Account form completed: login');
         },
         error: (error) => {
           this.view.markForCheck();

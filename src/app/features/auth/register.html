@@ -64,11 +64,16 @@
         </p>
       }
       <!-- TODO 12 -->
-      <!-- TODO 14 -->
-      <button class="auth-submit" type="submit" [disabled]="!isSubmitting">
+      <!-- TODO 14 ==> Solved -->
+      <!-- <button class="auth-submit" type="submit" [disabled]="!isSubmitting">
         {{ loading.isLoading() ? 'Making room for you…' : 'Create account' }}
         <span aria-hidden="true">↗</span>
-      </button>
+      </button> -->
+      <app-button
+        [value]="loading.isLoading() ? 'Making room for you…' : 'Create account'"
+        [type]="'submit'"
+        [isDisabled]="!isSubmitting"
+      />
     </form>
     <p class="auth-switch">Already in good company? <a routerLink="/auth/login">Sign in ↗</a></p>
   </div>

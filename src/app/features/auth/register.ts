@@ -12,9 +12,10 @@ import { LoadingService } from '../../core/loading';
 import { passwordMatchingValidator } from '../../shared/password-matching.validators';
 import { InputFormComponent } from '../../shared/input-form/input-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, InputFormComponent],
+  imports: [ReactiveFormsModule, RouterLink, InputFormComponent, ButtonComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -69,8 +70,6 @@ export class RegisterPage {
           this.success = result.message;
           this.form.controls.password.reset();
           this.form.controls.confirmPassword.reset();
-          // TODO 13
-          console.log('Account form completed: registration');
         },
         error: (error) => {
           this.view.markForCheck();
