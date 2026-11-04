@@ -18,7 +18,7 @@
     <p class="auth-demo-note">
       Local demo only. No email is sent, and no real account password is changed.
     </p>
-    <!-- TODO 15 -->
+    <!-- TODO 15 ==> Solved -->
     @if (completed) {
       <div class="auth-complete">
         <span aria-hidden="true">✓</span>
@@ -27,122 +27,26 @@
         <a routerLink="/auth/login" class="button">Back to sign in ↗</a>
       </div>
     } @else if (recovery.step === 0) {
-      <h2>A little help getting back.</h2>
-      <p class="auth-intro">Start with the email address for your account.</p>
-      <form
-        [formGroup]="emailForm"
-        (ngSubmit)="requestCode()"
-        [attr.aria-busy]="loading.isLoading()"
-        novalidate
-      >
-        <!-- TODO 11 ==> Solved -->
-        <app-input-form
-          labelName="Email address"
-          type="email"
-          placeholder="you@example.test"
-          forId="recovery-email"
-          [errorMessage]="getErrorMessage('email')"
-          formControlName="email"
-        ></app-input-form>
-
-        @if (error) {
-          <p class="auth-request-error" role="alert">{{ error }}</p>
-        }
-        <!-- TODO 12 ==> Solved -->
-        <!-- TODO 14 ==> Solved -->
-
-        <app-button
-          [value]="loading.isLoading() ? 'Getting things ready…' : 'Send recovery code'"
-          [type]="'submit'"
-          [isDisabled]="!isSubmittingEmail"
-        />
-      </form>
+      <app-recovery-email
+        [loading]="loading.isLoading()"
+        [error]="error"
+        (submitted)="requestCode($event)"
+      />
     } @else if (recovery.step === 1) {
-      <h2>A quick little check.</h2>
-      <p class="auth-intro">
-        Enter the six-digit code for <strong>{{ recovery.email }}</strong
-        >.
-      </p>
-      <p class="auth-code-note">For this local demo, use <strong>123456</strong>.</p>
-      <form
-        [formGroup]="codeForm"
-        (ngSubmit)="verifyCode()"
-        [attr.aria-busy]="loading.isLoading()"
-        novalidate
-      >
-        <app-input-form
-          labelName="Verification code"
-          type="text"
-          inputmode="numeric"
-          maxlength="6"
-          placeholder="000000"
-          forId="recovery-code"
-          [errorMessage]="getErrorMessage('code')"
-          formControlName="code"
-        ></app-input-form>
-
-        @if (error) {
-          <p class="auth-request-error" role="alert">{{ error }}</p>
-        }
-        <!-- TODO 12 ==> Solved -->
-        <!-- TODO 14 ==> Solved -->
-        <app-button
-          [value]="loading.isLoading() ? 'Checking your code…' : 'Verify code'"
-          [type]="'submit'"
-          [isDisabled]="!isSubmittingCode"
-        />
-      </form>
-      <button class="auth-back" type="button" [disabled]="loading.isLoading()" (click)="back()">
-        ← Use another email
-      </button>
+      <app-recovery-code
+        [email]="recovery.email"
+        [loading]="loading.isLoading()"
+        [error]="error"
+        (submitted)="verifyCode($event)"
+        (backClicked)="back()"
+      />
     } @else {
-      <h2>A password, refreshed.</h2>
-      <p class="auth-intro">Choose something new for your Morrow account.</p>
-      <form
-        [formGroup]="passwordForm"
-        (ngSubmit)="resetPassword()"
-        [attr.aria-busy]="loading.isLoading()"
-        novalidate
-      >
-        <app-input-form
-          labelName="New password"
-          type="password"
-          forId="reset-password"
-          [errorMessage]="getErrorMessage('password')"
-          formControlName="password"
-        ></app-input-form>
-
-        <app-input-form
-          labelName="Confirm Password"
-          type="password"
-          forId="register-confirm"
-          formControlName="confirmPassword"
-          [errorMessage]="
-            passwordForm.get('confirmPassword')?.touched &&
-            passwordForm.getError('passwordMismatch')
-              ? 'Your passwords don\'t match.'
-              : getErrorMessage('confirmPassword')
-          "
-        ></app-input-form>
-
-        @if (error) {
-          <p class="auth-request-error" role="alert">{{ error }}</p>
-        }
-        <!-- TODO 12 ==> Solved -->
-        <!-- <button class="auth-submit" type="submit" [disabled]="!isSubmittingPassword">
-          {{ loading.isLoading() ? 'Finishing up…' : 'Reset password' }}
-          <span aria-hidden="true">↗</span>
-        </button> -->
-        <!-- TODO 14 ==> Solved -->
-        <app-button
-          [value]="loading.isLoading() ? 'Finishing up…' : 'Reset password'"
-          [type]="'submit'"
-          [isDisabled]="!isSubmittingPassword"
-        />
-      </form>
-      <button class="auth-back" type="button" [disabled]="loading.isLoading()" (click)="back()">
-        ← Back to verification
-      </button>
+      <app-recovery-reset-password
+        [loading]="loading.isLoading()"
+        [error]="error"
+        (submitted)="resetPassword($event)"
+        (backClicked)="back()"
+      />
     }
     <p class="auth-switch">Found your way? <a routerLink="/auth/login">Back to sign in ↗</a></p>
   </div>

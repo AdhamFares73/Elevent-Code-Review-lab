@@ -1,0 +1,23 @@
+<h2>A little help getting back.</h2>
+<p class="auth-intro">Start with the email address for your account.</p>
+
+<form [formGroup]="emailForm" (ngSubmit)="submit()" [attr.aria-busy]="loading()" novalidate>
+  <app-input-form
+    labelName="Email address"
+    type="email"
+    placeholder="you@example.test"
+    forId="recovery-email"
+    [errorMessage]="getErrorMessage('email')"
+    formControlName="email"
+  />
+
+  @if (error()) {
+    <p class="auth-request-error" role="alert">{{ error() }}</p>
+  }
+
+  <app-button
+    [value]="loading() ? 'Getting things ready…' : 'Send recovery code'"
+    type="submit"
+    [isDisabled]="emailForm.invalid || loading()"
+  />
+</form>

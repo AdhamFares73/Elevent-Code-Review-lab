@@ -1,0 +1,25 @@
+// TODO 14
+.auth-submit {
+  width: 100%;
+  min-height: 49px;
+  padding: 15px 21px;
+  border: 1px solid #2f5542;
+  border-radius: 3px;
+  background: #2f5542;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 24px;
+  cursor: pointer;
+}
+.auth-submit:hover {
+  background: #234333;
+}
+.auth-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

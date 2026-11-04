@@ -1,0 +1,35 @@
+<h2>A quick little check.</h2>
+
+<p class="auth-intro">
+  Enter the six-digit code for <strong>{{ email() }}</strong
+  >.
+</p>
+
+<p class="auth-code-note">For this local demo, use <strong>123456</strong>.</p>
+
+<form [formGroup]="codeForm" (ngSubmit)="submit()" [attr.aria-busy]="loading()" novalidate>
+  <app-input-form
+    labelName="Verification code"
+    type="text"
+    inputmode="numeric"
+    maxlength="6"
+    placeholder="000000"
+    forId="recovery-code"
+    [errorMessage]="getErrorMessage('code')"
+    formControlName="code"
+  />
+
+  @if (error()) {
+    <p class="auth-request-error" role="alert">{{ error() }}</p>
+  }
+
+  <app-button
+    [value]="loading() ? 'Checking your code…' : 'Verify code'"
+    type="submit"
+    [isDisabled]="codeForm.invalid || loading()"
+  />
+</form>
+
+<button class="auth-back" type="button" [disabled]="loading()" (click)="backClicked.emit()">
+  ← Use another email
+</button>
